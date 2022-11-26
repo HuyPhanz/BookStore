@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 // @mui
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import {Button, Tooltip} from "antd";
+import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import {useNavigate} from "react-router-dom";
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/label';
 import { ColorPreview } from '../../../components/color-utils';
-
 // ----------------------------------------------------------------------
 
 const StyledProductImg = styled('img')({
@@ -25,7 +27,8 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { author, categories, images, language, numberOfPages, publishYear, publisher, title } = product;
+  const {id, author, categories, images, language, numberOfPages, publishYear, publisher, title } = product;
+  const navigate = useNavigate()
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -33,9 +36,9 @@ export default function ShopProductCard({ product }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover">
+        <Link onClick={() => {navigate('/dashboard/books/1')}} color="inherit" underline="hover">
           <Typography variant="subtitle1" style={{fontSize: '16pt'}}>
-           {title}
+            {title}
           </Typography>
         </Link>
 
@@ -99,6 +102,15 @@ export default function ShopProductCard({ product }) {
           <Typography>
             { publishYear ?? 'N/a'}
           </Typography>
+        </Stack>
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Tooltip title={'Xóa sách khỏi thư viện'}>
+            <Button size={'large'} type={'primary'} danger icon={<DeleteOutlined />} />
+          </Tooltip>
+          <Tooltip title={'Thêm vào giỏ hàng'}>
+            <Button size={'large'} type={'primary'} icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
+          </Tooltip>
         </Stack>
 
       </Stack>
