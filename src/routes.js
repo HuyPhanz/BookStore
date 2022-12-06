@@ -10,6 +10,11 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import BookDetail from './pages/BookDetail';
+import Home from "./pages/Home/Home";
+import Product from "./pages/Products/Product";
+import MaterialSource from "./pages/MaterialSource/MaterialSource";
+import Store from "./pages/Store/Store";
+import Feature from "./pages/Feature/Feature";
 
 
 // ----------------------------------------------------------------------
@@ -24,12 +29,27 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        // { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'books', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
-        { path: 'books/:id', element: <BookDetail /> },
+        { element: <Navigate to="/dashboard/home" />, index: true },
+        {
+          path: 'home',
+          element: <Home/>
+        },
+        {
+          path: 'product',
+          element: <Product/>
+        },
+        {
+          path: 'material-source',
+          element: <MaterialSource/>
+        },
+        {
+          path: 'store',
+          element: <Store/>
+        },
+        {
+          path: 'feature',
+          element: <Feature/>
+        },
       ],
     },
     {
