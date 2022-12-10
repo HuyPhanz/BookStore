@@ -14,20 +14,20 @@ import {AUTH_PATH} from "../../../const/API";
 
 export default function LoginForm() {
   const auth = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState({username: null, password: null, deviceId: '1111'})
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
     axios.post(AUTH_PATH.LOGIN_PATH,user).then(response => {
       if (response.data.accessToken) {
-        auth.login({ accessToken: response.data.accessToken, userName: user.username});
+        auth.login({ accessToken: response.data.accessToken});
       } else {
-        toast.error('Tài khoản hoặc mật khẩu sai!')
+        toast.error('Có lỗi xảy ra!')
       }
     }).catch((e) => {
       if (e.response) {
-        toast.error('Tài khoản hoặc mật khẩu sai!')
+        toast.error('Có lỗi xảy ra!')
       }
     })
   };
@@ -40,7 +40,7 @@ export default function LoginForm() {
         </div>
 
         <h1 style={{textAlign: 'center'}}>
-          Đăng nhập
+          Đổi
         </h1>
 
         <TextField
@@ -68,13 +68,13 @@ export default function LoginForm() {
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 2 }}>
         <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleLogin}>
-          Đăng nhập
+          Đổi mật khẩu
         </LoadingButton>
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 2 }}>
-        <Link style={{cursor: 'pointer'}} variant="subtitle2" underline="hover" onClick={() => navigate('/auth/register')}>
-          Đăng kí
+        <Link variant="subtitle2" underline="hover" onClick={() => navigate('/auth/login')}>
+          Đăng nhập
         </Link>
       </Stack>
     </>

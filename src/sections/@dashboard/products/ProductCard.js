@@ -36,7 +36,7 @@ export default function ShopProductCard({ product }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link onClick={() => {navigate('/dashboard/books/1')}} color="inherit" underline="hover">
+        <Link onClick={() => {navigate('/books/1')}} color="inherit" underline="hover">
           <Typography variant="subtitle1" style={{fontSize: '16pt'}}>
             {title}
           </Typography>

@@ -5,7 +5,7 @@ import SimpleLayout from './layouts/simple';
 //
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
-import LoginPage from './pages/LoginPage';
+import AuthPage from './pages/Auth/AuthPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -22,14 +22,14 @@ import Feature from "./pages/Feature/Feature";
 export default function Router() {
   const routes = useRoutes([
     {
-      path: '/',
-      element: <LoginPage />,
+      path: '/auth/:type',
+      element: <AuthPage />,
     },
     {
-      path: '/dashboard',
+      path: '/',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/home" />, index: true },
+        { element: <Navigate to="/home" />, index: true },
         {
           path: 'home',
           element: <Home/>
