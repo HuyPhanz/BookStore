@@ -8,61 +8,73 @@ export default function Product () {
   const data = [
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk1.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk1.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk1.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk1.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk2.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk2.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk2.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk3.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk3.png',
       price: 10000,
       code: 123456
     },
     {
       name: 'Sữa tươi dinh dưỡng',
-      image: '/assets/image5.png',
+      image: '/assets/images/products/milk3.png',
+      price: 10000,
+      code: 123456
+    },
+    {
+      name: 'Sữa tươi dinh dưỡng',
+      image: '/assets/images/products/milk3.png',
+      price: 10000,
+      code: 123456
+    },
+    {
+      name: 'Sữa tươi dinh dưỡng',
+      image: '/assets/images/products/milk3.png',
       price: 10000,
       code: 123456
     },
