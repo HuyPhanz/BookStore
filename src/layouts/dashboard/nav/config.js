@@ -1,4 +1,5 @@
 // component
+import {LogoutOutlined} from "@ant-design/icons";
 import SvgColor from '../../../components/svg-color';
 
 // ----------------------------------------------------------------------
@@ -36,7 +37,7 @@ const navConfig = {
     {
       title: 'Đăng xuất',
       path: '/auth/logout',
-      icon: icon('ic_cart'),
+      icon: <LogoutOutlined/>,
     },
   ]
 };
