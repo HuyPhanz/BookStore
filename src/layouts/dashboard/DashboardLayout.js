@@ -5,6 +5,8 @@ import { styled } from '@mui/material/styles';
 //
 import Header from './header';
 import Footer from "../../pages/Footer";
+import {useAuth} from "../../hooks/useRoute";
+import Nav from "./nav";
 
 // ----------------------------------------------------------------------
 
@@ -28,16 +30,23 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-
+  const auth = useAuth();
+  const {user} = auth;
   return (
     <StyledRoot>
-      <Header onOpenNav={() => setOpen(true)} />
-
-      {/* <Nav openNav={open} onCloseNav={() => setOpen(false)} /> */}
+      {user.userName === 'admin' ? (
+        <Nav openNav={open} onCloseNav={() => setOpen(false)}/>
+      ) : (
+        <Header onOpenNav={() => setOpen(true)}/>
+      )}
 
       <Main>
         <Outlet />
-        <Footer/>
+        {user.userName === 'admin' ? (
+          null
+          ) : (
+            <Footer/>
+        )}
       </Main>
     </StyledRoot>
   );

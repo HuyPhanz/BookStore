@@ -10,43 +10,43 @@ const {Search} = Input
 const dataSource = [
   {
     index: 1,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
   {
     index: 2,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
   {
     index: 3,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
   {
     index: 4,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
   {
     index: 5,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
   {
     index: 6,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
   {
     index: 7,
-    province: 'Hà Nam',
+    code: 'CH001',
     name: 'Hà Nội',
     address: '10 Downing Street',
   },
@@ -59,8 +59,8 @@ const columns = [
     render: (val) => val??'-'
   },
   {
-    title: 'Khu vực',
-    dataIndex: 'province',
+    title: 'Mã cửa hàng',
+    dataIndex: 'code',
     render: (val) => val??'-'
   },
   {

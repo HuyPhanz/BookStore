@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
 
   const login = (userDetails) => {
     setUser(userDetails);
-    navigate("/home");
+    navigate(userDetails.userName === 'admin' ? '/admin/user' : '/home');
   };
 
   const logout = () => {

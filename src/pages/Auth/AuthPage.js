@@ -6,6 +6,7 @@ import { Container } from '@mui/material';
 import {useParams} from "react-router-dom";
 // sections
 import {ForgotPasswordForm, LoginForm, RegisterForm} from '../../sections/auth/login';
+import {useAuth} from "../../hooks/useRoute";
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,10 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function AuthPage() {
   const {type} = useParams();
+  const auth = useAuth();
+  if(type === 'logout') {
+    auth.logout();
+  }
   return (
     <>
       <Helmet>
