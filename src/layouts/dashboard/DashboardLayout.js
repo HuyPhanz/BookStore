@@ -34,7 +34,7 @@ export default function DashboardLayout() {
   const {user} = auth;
   return (
     <StyledRoot>
-      {user.userName === 'admin' ? (
+      {user?.userName === 'admin' ? (
         <Nav openNav={open} onCloseNav={() => setOpen(false)}/>
       ) : (
         <Header onOpenNav={() => setOpen(true)}/>
@@ -42,7 +42,7 @@ export default function DashboardLayout() {
 
       <Main>
         <Outlet />
-        {user.userName === 'admin' ? (
+        {user?.userName === 'admin' ? (
           null
           ) : (
             <Footer/>

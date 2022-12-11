@@ -21,7 +21,7 @@ export default function LoginForm() {
   const handleLogin = () => {
     axios.post(AUTH_PATH.LOGIN_PATH,user).then(response => {
       if (response.data.accessToken) {
-        auth.login({ accessToken: response.data.accessToken, userName: user.username});
+        auth.login({ accessToken: response.data.accessToken, userName: user?.username});
       } else {
         toast.error('Tài khoản hoặc mật khẩu sai!')
       }

@@ -144,9 +144,9 @@ export default function Header({ onOpenNav }) {
             </Typography>
           </Menu>
         </div>
-        {user.userName ? (
+        {user?.userName ? (
           <div style={{display: 'flex', gap:'16px', alignItems: 'center'}}>
-            <Text style={{color: 'black'}}>{user.userName}</Text>
+            <Text style={{color: 'black'}}>{user?.userName}</Text>
             <Button onClick={() => handleLogout()}>Đăng xuất</Button>
           </div>
           ) : (
