@@ -9,6 +9,7 @@ export const AUTH_PATH = {
 export const ADMIN_PATH = {
   USER: `${BASE_PATH}/cms/users`,
   STORE: `${BASE_PATH}/cms/store`,
+  PRODUCT: `${BASE_PATH}/cms/product`,
   CITY: `${BASE_PATH}/cms/city`,
   DISTRICT: `${BASE_PATH}/cms/district`,
   WARD: `${BASE_PATH}/cms/ward`

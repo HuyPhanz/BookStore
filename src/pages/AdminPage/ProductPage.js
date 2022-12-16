@@ -2,26 +2,30 @@
 import {
   Stack,
   Container,
-  Typography,
+  Typography, TextField, Autocomplete,
 } from '@mui/material';
 // components
 import { DeleteTwoTone, EditTwoTone, PlusOutlined} from "@ant-design/icons";
-import {Button, Divider, Input, Modal, Table} from "antd";
-import {useState} from "react";
+import {Button, Divider, Image, Input, Modal, Table} from "antd";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import axios from "axios";
+import {parseInt} from "lodash/string";
+import {ADMIN_PATH} from "../../const/API";
+import {useAuth} from "../../hooks/useRoute";
 
 // ----------------------------------------------------------------------
 
 const initData = [
-  { id: '1', name: 'Sữa tươi tiệt trùng', code: 'STTTT', type: 'Sữa tươi tiệt trùng', quanity: '10'}
+  { id: '1', nameProduct: 'Sữa tươi tiệt trùng', productCode: 'STTTT', productTypeId: 'Sữa tươi tiệt trùng', quanity: '10'}
 ];
 
 const initProduct = {
-  name: null,
-  code: null,
-  type: null,
-  quantity: null,
-  description: null,
+  nameProduct: null,
+  productCode: null,
+  productTypeId: null,
+  number: null,
+  url: null,
 }
 
 // ----------------------------------------------------------------------
@@ -32,8 +36,28 @@ export default function ProductPage() {
   const [data, setData] = useState(initData)
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
+  const [param,setParam] = useState({perPage: 10})
+  const [page, setPage] = useState(1)
 
-  const handleToggleModal = (type, data) => {
+  const auth = useAuth();
+  const accessKey = 'x-access-token'
+  const headers = {
+    [accessKey]: auth.user?.accessToken
+  }
+  const handleLoadData = () => {
+    axios.get(ADMIN_PATH.PRODUCT, {params: param, headers})
+      .then(response => {
+        setData(response.data.products)
+        setPage(response.data.page)
+      })
+      .catch(e => {
+        if (e.response) {
+          toast.error(e.response)
+        }
+      })
+  }
+
+  const handleToggleModal = (productTypeId, data) => {
     if (modalOpening) {
       setModalOpening(null)
       setProduct(initProduct)
@@ -41,21 +65,42 @@ export default function ProductPage() {
       if (data) {
         setProduct(data)
       }
-      setModalOpening(type)
+      setModalOpening(productTypeId)
     }
   }
 
-  const handleSubmitData = (type) => {
-    if (type === 'new') {
-      setData([...data,{...product, id: data.length + 1}])
+  console.log(product)
+
+  const handleSubmitData = (productTypeId) => {
+    if (productTypeId === 'new') {
+      axios.post(ADMIN_PATH.PRODUCT,product,{headers})
+        .then((res) => {
+          if (res) {
+            handleLoadData()
+            handleToggleModal();
+          }
+        })
+        .catch(e => {
+          if (e.response) {
+            toast.error(e.response.data?.msg)
+          }
+        })
     } else if (selectedRow !== -1){
-      const temp = data
-      temp[selectedRow] = product
-      setData([...temp])
+      axios.put(`${ADMIN_PATH.PRODUCT}/${product?.id}`,product,{headers})
+        .then(response => {
+          if (response) {
+            handleLoadData()
+            handleToggleModal()
+          }
+        })
+        .catch(e => {
+          if (e.response) {
+            toast.error(e.response.data?.msg)
+          }
+        })
     } else {
       toast.error('Có lỗi xảy ra!')
     }
-    handleToggleModal()
   }
 
   const handleDelete = (id) => {
@@ -64,10 +109,10 @@ export default function ProductPage() {
 
   const column = [
     { dataIndex: 'id', title: 'ID' },
-    { dataIndex: 'name', title: 'Tên sản phẩm' },
-    { dataIndex: 'code', title: 'Mã sản phẩm' },
-    { dataIndex: 'type', title: 'Loại sản phẩm' },
-    { dataIndex: 'quantity', title: 'Số lượng' },
+    { dataIndex: 'nameProduct', title: 'Tên sản phẩm' },
+    { dataIndex: 'productCode', title: 'Mã sản phẩm' },
+    { dataIndex: 'productproductTypeIdId', title: 'Loại sản phẩm', render: (val) => val ?? 'Sữa tươi' },
+    { dataIndex: 'number', title: 'Số lượng' },
     { title: 'Hành động',
       align: 'center',
       render: (_, record, index) => (
@@ -79,6 +124,10 @@ export default function ProductPage() {
         </>
       )},
   ];
+
+  useEffect(() => {
+    handleLoadData()
+  },[])
 
   return (
     <>
@@ -92,7 +141,7 @@ export default function ProductPage() {
         <div style={{padding: '50px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.05)', borderRadius: '5px'}}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Search placeholder={'Tìm kiếm'} style={{width: '286px', marginBottom: '16px'}}/>
-            <Button icon={<PlusOutlined/>} type={'primary'} onClick={() => handleToggleModal('new')}>Thêm</Button>
+            <Button icon={<PlusOutlined/>} productTypeId={'primary'} onClick={() => handleToggleModal('new')}>Thêm</Button>
           </Stack>
           <Table
             columns={column}
@@ -101,31 +150,54 @@ export default function ProductPage() {
         </div>
 
         <Modal
+          title={modalOpening === 'new' ? 'Thêm sản phẩm' : 'Sửa thông tin sản phẩm'}
           open={modalOpening}
           onCancel={handleToggleModal}
           onOk={() => handleSubmitData(modalOpening)}
         >
           <>
             <Divider />
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Tên sản phầm <span style={{color: 'red'}}>*</span></h4>
-              <Input value={product.name} onChange={e => {setProduct({...product, name: e.target.value})}}/>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Mã sản phẩm  <span style={{color: 'red'}}>*</span></h4>
-              <Input value={product.code} onChange={e => {setProduct({...product, code: e.target.value})}}/>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Loại sản phẩm  <span style={{color: 'red'}}>*</span></h4>
-              <Input value={product.type} onChange={e => {setProduct({...product, type: e.target.value})}}/>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Số lượng</h4>
-              <Input value={product.quantity} onChange={e => {setProduct({...product, quantity: e.target.value})}}/>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Mô tả</h4>
-              <Input value={product.description} onChange={e => {setProduct({...product, description: e.target.value})}}/>
+            <Stack spacing={5}>
+              {product.url && (<Image width={200} src={`/assets/images/products/${product.url}`} />)}
+              <TextField
+                value={product.nameProduct ?? ''}
+                name='nameProduct'
+                label={'Tên sản phầm'}
+                onChange={e => {setProduct({...product, nameProduct: e.target.value})}}
+              />
+
+              <TextField
+                value={product.productCode ?? ''}
+                name='productCode'
+                label={'Mã sản phẩm'}
+                onChange={e => {setProduct({...product, productCode: e.target.value})}}
+              />
+
+              <Autocomplete
+                disablePortal
+                onChange={(_,{id}) => setProduct({...product, productTypeId: id})}
+                id="productTypeId"
+                options={[
+                  {id: '1', label: 'Sữa đặc'},
+                  {id: '2', label: 'Sữa chua'},
+                ]}
+                renderInput={(params) => <TextField {...params} label="Loại" />}
+              />
+
+              <TextField
+                value={product.number ?? ''}
+                productTypeId={'number'}
+                name='number'
+                label={'Số lượng'}
+                onChange={e => {setProduct({...product, number: parseInt(e.target.value)})}}
+              />
+
+              <TextField
+                value={product.url ?? ''}
+                name='url'
+                label={'Tên ảnh'}
+                onChange={e => {setProduct({...product, url: e.target.value})}}
+              />
             </Stack>
           </>
         </Modal>
