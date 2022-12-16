@@ -37,7 +37,7 @@ export default function UserPage() {
   const [data, setData] = useState([])
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
-  const [param,setParam] = useState({perPage: 10})
+  const [param,setParam] = useState({perPage: 1000})
   const [page, setPage] = useState(1)
 
   const auth = useAuth();
@@ -74,8 +74,12 @@ export default function UserPage() {
   const handleSubmitData = (type) => {
     if (type === 'new') {
       axios.post(ADMIN_PATH.USER,user,{headers})
-        .then(() => {
-          handleLoadData()
+        .then((res) => {
+          if (res) {
+            toast.success('Thành công!')
+            handleLoadData()
+            handleToggleModal()
+          }
         })
         .catch(e => {
           if (e.response) {
@@ -86,7 +90,9 @@ export default function UserPage() {
       axios.put(`${ADMIN_PATH.USER}/${user?.id}`,user,{headers})
         .then(response => {
           if (response) {
+            toast.success('Thành công!')
             handleLoadData()
+            handleToggleModal()
           }
         })
         .catch(e => {
@@ -97,11 +103,39 @@ export default function UserPage() {
     } else {
       toast.error('Có lỗi xảy ra!')
     }
-    handleToggleModal()
+  }
+
+  const handleSearch = (val) => {
+    if (val !== null) {
+      if (val.trim() === '') {
+        handleLoadData()
+      } else {
+        setData(data.filter(dt => dt?.username?.toLowerCase().includes(val?.toLowerCase())))
+      }
+    }
   }
 
   const handleDelete = (id) => {
-    setData(data.filter((dt) => dt.id !== id))
+    Modal.confirm({
+      title: 'Xác nhận',
+      content: 'Bạn có chắc chắn?',
+      okText: 'Xác nhận',
+      cancelText: 'Hủy',
+      onOk:()=>{
+        axios.delete(`${ADMIN_PATH.USER}/${id}`,{headers})
+          .then(res => {
+            if (res) {
+              toast.success('Thành công!')
+              handleLoadData()
+            }
+          })
+          .catch(e => {
+            if (e.response) {
+              toast.error(e.response.data?.msg)
+            }
+          })
+      }
+    });
   }
 
   const column = [
@@ -137,12 +171,13 @@ export default function UserPage() {
 
         <div style={{padding: '50px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.05)', borderRadius: '5px'}}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Search placeholder={'Tìm kiếm'} style={{width: '286px', marginBottom: '16px'}}/>
+            <Search placeholder={'Tìm kiếm'} style={{width: '286px', marginBottom: '16px'}} onSearch={handleSearch}/>
             <Button icon={<PlusOutlined/>} type={'primary'} onClick={() => handleToggleModal('new')}>Thêm</Button>
           </Stack>
           <Table
             columns={column}
             dataSource={data}
+            pagination={false}
           />
         </div>
 
@@ -152,26 +187,28 @@ export default function UserPage() {
           onCancel={handleToggleModal}
           onOk={() => handleSubmitData(modalOpening)}
           width={600}
+          okText={'Xác nhận'}
+          cancelText={'Hủy'}
         >
           <>
             <Divider />
             <Stack spacing={5}>
               <TextField
-                value={user.username}
+                value={user.username ?? ''}
                 name='userName'
                 label={'Tên người dùng'}
                 onChange={e => {setUser({...user, username: e.target.value})}}
               />
 
               {modalOpening === 'new' && (<TextField
-                value={user.password}
+                value={user.password ?? ''}
                 name='password'
                 label={'Mật khẩu'}
                 onChange={e => {setUser({...user, password: e.target.value})}}
               />)}
 
               <TextField
-                value={user.name}
+                value={user.name ?? ''}
                 name='fullName'
                 label={'Tên hiển thị'}
                 onChange={e => {setUser({...user, name: e.target.value})}}
@@ -182,7 +219,7 @@ export default function UserPage() {
                 <Select
                   labelId="gender"
                   id="gender"
-                  value={user.gender}
+                  value={user.gender ?? ''}
                   label="Giới tính"
                   onChange={e => setUser({...user, gender: e.target.value})}
                 >
@@ -192,21 +229,21 @@ export default function UserPage() {
               </FormControl>
 
               <TextField
-                value={user.email}
+                value={user.email ?? ''}
                 name='email'
                 label={'Email'}
                 onChange={e => {setUser({...user, email: e.target.value})}}
               />
 
               <TextField
-                value={user.phone}
+                value={user.phone ?? ''}
                 name='phone'
                 label={'Số điện thoại'}
                 onChange={e => {setUser({...user, phone: e.target.value})}}
               />
 
               <TextField
-                value={user.description}
+                value={user.description ?? ''}
                 name='description'
                 label={'Mô tả'}
                 onChange={e => {setUser({...user, description: e.target.value})}}

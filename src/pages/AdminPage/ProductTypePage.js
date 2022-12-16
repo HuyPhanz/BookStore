@@ -2,23 +2,26 @@
 import {
   Stack,
   Container,
-  Typography,
+  Typography, TextField,
 } from '@mui/material';
 // components
 import { DeleteTwoTone, EditTwoTone, PlusOutlined} from "@ant-design/icons";
 import {Button, Divider, Input, Modal, Table} from "antd";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import axios from "axios";
+import {ADMIN_PATH} from "../../const/API";
+import {useAuth} from "../../hooks/useRoute";
 
 // ----------------------------------------------------------------------
 
 const initData = [
-  { id: '1', name: 'Sữa tươi tiệt trùng', code: 'STTTT'}
+  { id: '1', typeString: 'Sữa tươi tiệt trùng', typeCode: 'STTTT'}
 ];
 
 const initProductType = {
-  name: null,
-  code: null,
+  typeString: null,
+  typeCode: null,
 }
 
 // ----------------------------------------------------------------------
@@ -29,6 +32,27 @@ export default function ProductTypePage() {
   const [data, setData] = useState(initData)
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
+  const [param,setParam] = useState({perPage: 10})
+  const [page, setPage] = useState(1)
+
+  const auth = useAuth();
+  const accessKey = 'x-access-token'
+  const headers = {
+    [accessKey]: auth.user?.accessToken
+  }
+
+  const handleLoadData = () => {
+    axios.get(ADMIN_PATH.PRODUCT_TYPE, {params: param, headers})
+      .then(response => {
+        setData(response.data.productTypes)
+        setPage(response.data.page)
+      })
+      .catch(e => {
+        if (e.response) {
+          toast.error(e.response)
+        }
+      })
+  }
 
   const handleToggleModal = (type, data) => {
     if (modalOpening) {
@@ -44,25 +68,65 @@ export default function ProductTypePage() {
 
   const handleSubmitData = (type) => {
     if (type === 'new') {
-      setData([...data,{...productType, id: data.length + 1}])
+      axios.post(ADMIN_PATH.PRODUCT_TYPE,productType,{headers})
+        .then((res) => {
+          if (res) {
+            toast.success('Thành công!')
+            handleLoadData()
+            handleToggleModal();
+          }
+        })
+        .catch(e => {
+          if (e.response) {
+            toast.error(e.response.data?.msg)
+          }
+        })
     } else if (selectedRow !== -1){
-      const temp = data
-      temp[selectedRow] = productType
-      setData([...temp])
+      axios.put(`${ADMIN_PATH.PRODUCT_TYPE}/${productType?.id}`,productType,{headers})
+        .then(response => {
+          if (response) {
+            toast.success('Thành công!')
+            handleLoadData()
+            handleToggleModal()
+          }
+        })
+        .catch(e => {
+          if (e.response) {
+            toast.error(e.response.data?.msg)
+          }
+        })
     } else {
       toast.error('Có lỗi xảy ra!')
     }
-    handleToggleModal()
   }
 
   const handleDelete = (id) => {
-    setData(data.filter((dt) => dt.id !== id))
+    Modal.confirm({
+      title: 'Xác nhận',
+      content: 'Bạn có chắc chắn?',
+      okText: 'Xác nhận',
+      cancelText: 'Hủy',
+      onOk:()=>{
+        axios.delete(`${ADMIN_PATH.PRODUCT_TYPE}/${id}`,{headers})
+          .then(res => {
+            if (res) {
+              toast.success('Thành công!')
+              handleLoadData()
+            }
+          })
+          .catch(e => {
+            if (e.response) {
+              toast.error(e.response.data?.msg)
+            }
+          })
+      }
+    });
   }
 
   const column = [
     { dataIndex: 'id', title: 'ID' },
-    { dataIndex: 'name', title: 'Tên loại sản phẩm' },
-    { dataIndex: 'code', title: 'Mã loại sản phẩm' },
+    { dataIndex: 'typeString', title: 'Tên loại sản phẩm' },
+    { dataIndex: 'typeCode', title: 'Mã loại sản phẩm' },
     { title: 'Hành động',
       align: 'center',
       render: (_, record, index) => (
@@ -74,6 +138,10 @@ export default function ProductTypePage() {
         </>
       )},
   ];
+
+  useEffect(() => {
+    handleLoadData()
+  },[])
 
   return (
     <>
@@ -92,23 +160,34 @@ export default function ProductTypePage() {
           <Table
             columns={column}
             dataSource={data}
+            pagination={false}
           />
         </div>
 
         <Modal
+          title={modalOpening === 'new' ? 'Thêm loại sản phẩm' : 'Sửa loại sản phẩm'}
           open={modalOpening}
           onCancel={handleToggleModal}
           onOk={() => handleSubmitData(modalOpening)}
+          okText={'Xác nhận'}
+          cancelText={'Hủy'}
         >
           <>
             <Divider />
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Tên loại sản phầm <span style={{color: 'red'}}>*</span></h4>
-              <Input value={productType.name} onChange={e => {setProductType({...productType, name: e.target.value})}}/>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <h4 style={{width: '40%'}}>Mã loại sản phẩm  <span style={{color: 'red'}}>*</span></h4>
-              <Input value={productType.code} onChange={e => {setProductType({...productType, code: e.target.value})}}/>
+            <Stack spacing={5}>
+              <TextField
+                value={productType.typeString ?? ''}
+                name='typeString'
+                label={'Tên loại sản phầm'}
+                onChange={e => {setProductType({...productType, typeString: e.target.value})}}
+              />
+
+              <TextField
+                value={productType.typeCode ?? ''}
+                name='typeCode'
+                label={'Mã loại sản phẩm'}
+                onChange={e => {setProductType({...productType, typeCode: e.target.value})}}
+              />
             </Stack>
           </>
         </Modal>

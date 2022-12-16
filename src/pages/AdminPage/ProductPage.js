@@ -33,6 +33,7 @@ const initProduct = {
 export default function ProductPage() {
   const {Search} = Input;
   const [product, setProduct] = useState(initProduct)
+  const [productType, setProductType] = useState([])
   const [data, setData] = useState(initData)
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
@@ -44,6 +45,19 @@ export default function ProductPage() {
   const headers = {
     [accessKey]: auth.user?.accessToken
   }
+
+  const handleLoadProductType = () => {
+    axios.get(ADMIN_PATH.PRODUCT_TYPE, {params: {perPage: 1000}, headers})
+      .then(response => {
+        setProductType(response.data.productTypes?.map(({id, typeString}) => ({id, label: typeString})))
+      })
+      .catch(e => {
+        if (e.response) {
+          toast.error(e.response)
+        }
+      })
+  }
+
   const handleLoadData = () => {
     axios.get(ADMIN_PATH.PRODUCT, {params: param, headers})
       .then(response => {
@@ -69,13 +83,12 @@ export default function ProductPage() {
     }
   }
 
-  console.log(product)
-
-  const handleSubmitData = (productTypeId) => {
-    if (productTypeId === 'new') {
+  const handleSubmitData = (type) => {
+    if (type === 'new') {
       axios.post(ADMIN_PATH.PRODUCT,product,{headers})
         .then((res) => {
           if (res) {
+            toast.success('Thành công!')
             handleLoadData()
             handleToggleModal();
           }
@@ -89,6 +102,7 @@ export default function ProductPage() {
       axios.put(`${ADMIN_PATH.PRODUCT}/${product?.id}`,product,{headers})
         .then(response => {
           if (response) {
+            toast.success('Thành công!')
             handleLoadData()
             handleToggleModal()
           }
@@ -104,14 +118,33 @@ export default function ProductPage() {
   }
 
   const handleDelete = (id) => {
-    setData(data.filter((dt) => dt.id !== id))
+    Modal.confirm({
+      title: 'Xác nhận',
+      content: 'Bạn có chắc chắn?',
+      okText: 'Xác nhận',
+      cancelText: 'Hủy',
+      onOk:()=>{
+        axios.delete(`${ADMIN_PATH.PRODUCT}/${id}`,{headers})
+          .then(res => {
+            if (res) {
+              toast.success('Thành công!')
+              handleLoadData()
+            }
+          })
+          .catch(e => {
+            if (e.response) {
+              toast.error(e.response.data?.msg)
+            }
+          })
+      }
+    });
   }
 
   const column = [
     { dataIndex: 'id', title: 'ID' },
     { dataIndex: 'nameProduct', title: 'Tên sản phẩm' },
     { dataIndex: 'productCode', title: 'Mã sản phẩm' },
-    { dataIndex: 'productproductTypeIdId', title: 'Loại sản phẩm', render: (val) => val ?? 'Sữa tươi' },
+    { dataIndex: 'productTypeId', title: 'Loại sản phẩm', render: (val) => productType.find(({id}) => id === val)?.label ?? '-'},
     { dataIndex: 'number', title: 'Số lượng' },
     { title: 'Hành động',
       align: 'center',
@@ -127,6 +160,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     handleLoadData()
+    handleLoadProductType()
   },[])
 
   return (
@@ -146,6 +180,7 @@ export default function ProductPage() {
           <Table
             columns={column}
             dataSource={data}
+            pagination={false}
           />
         </div>
 
@@ -154,6 +189,8 @@ export default function ProductPage() {
           open={modalOpening}
           onCancel={handleToggleModal}
           onOk={() => handleSubmitData(modalOpening)}
+          okText={'Xác nhận'}
+          cancelText={'Hủy'}
         >
           <>
             <Divider />
@@ -175,21 +212,20 @@ export default function ProductPage() {
 
               <Autocomplete
                 disablePortal
+                value={product.productTypeId === null ? '' : {id: product.productTypeId, label: productType.find(({id}) => id === product.productTypeId)?.label}}
                 onChange={(_,{id}) => setProduct({...product, productTypeId: id})}
                 id="productTypeId"
-                options={[
-                  {id: '1', label: 'Sữa đặc'},
-                  {id: '2', label: 'Sữa chua'},
-                ]}
+                options={productType ?? []}
                 renderInput={(params) => <TextField {...params} label="Loại" />}
               />
 
               <TextField
                 value={product.number ?? ''}
                 productTypeId={'number'}
+                type={'number'}
                 name='number'
                 label={'Số lượng'}
-                onChange={e => {setProduct({...product, number: parseInt(e.target.value)})}}
+                onChange={e => {setProduct({...product, number: e.target.value})}}
               />
 
               <TextField

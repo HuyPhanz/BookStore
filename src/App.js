@@ -1,5 +1,4 @@
 import { ToastContainer } from 'react-toastify';
-import {BrowserRouter} from "react-router-dom";
 // routes
 import Router from './routes';
 // theme

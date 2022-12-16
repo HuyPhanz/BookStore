@@ -10,8 +10,14 @@ export const ADMIN_PATH = {
   USER: `${BASE_PATH}/cms/users`,
   STORE: `${BASE_PATH}/cms/store`,
   PRODUCT: `${BASE_PATH}/cms/product`,
+  PRODUCT_TYPE: `${BASE_PATH}/cms/productType`,
   CITY: `${BASE_PATH}/cms/city`,
   DISTRICT: `${BASE_PATH}/cms/district`,
   WARD: `${BASE_PATH}/cms/ward`
+}
+
+export const USER_PATH = {
+  STORE: `${BASE_PATH}/store`,
+  PRODUCT: `${BASE_PATH}/product`,
 }
 

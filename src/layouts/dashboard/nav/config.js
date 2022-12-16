@@ -30,11 +30,6 @@ const navConfig = {
   }],
   footer: [
     {
-      title: 'Đổi mật khẩu',
-      path: '/admin/change-password',
-      icon: icon('ic_lock'),
-    },
-    {
       title: 'Đăng xuất',
       path: '/auth/logout',
       icon: <LogoutOutlined/>,

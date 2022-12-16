@@ -41,7 +41,6 @@ export default function Home () {
           <div>
             <span style={{fontWeight: 'bold'}}>Website: </span> www.vinamilk.com.vn
           </div>
-          <Button>Xem thêm</Button>
         </div>
         <Image src={'/assets/vina1.png'}/>
       </div>

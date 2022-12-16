@@ -63,19 +63,23 @@ export default function Header({ onOpenNav }) {
   const auth = useAuth();
   const { user } = auth;
 
+  const accessKey = 'x-access-token'
+  const headers = {
+    [accessKey]: auth.user?.accessToken
+  }
+
   const handleLogout = () => {
     auth.logout();
-    axios.post(AUTH_PATH.LOGOUT_PATH,null,{headers: {Authorization: `Bearer ${auth.user.accessToken}`}}).then(response => {
-      if (response) {
-        auth.logout();
-      } else {
-        toast.error('Có lỗi xảy ra!')
-      }
-    }).catch((e) => {
-      if (e.response) {
-        toast.error('Có lỗi xảy ra!')
-      }
-    })
+    axios.post(AUTH_PATH.LOGOUT_PATH,{},{headers})
+      .then(response => {
+        if (response) {
+          auth.logout();
+        }
+      }).catch((e) => {
+        if (e.response) {
+          toast.error('Có lỗi xảy ra!')
+        }
+      })
   }
 
   return (
