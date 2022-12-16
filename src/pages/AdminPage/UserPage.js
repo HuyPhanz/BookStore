@@ -94,9 +94,6 @@ export default function UserPage() {
               toast.error(e.response.data?.msg)
             }
           })
-      const temp = data
-      temp[selectedRow] = user
-      setData([...temp])
     } else {
       toast.error('Có lỗi xảy ra!')
     }
