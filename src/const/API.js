@@ -5,3 +5,8 @@ export const AUTH_PATH = {
   LOGIN_PATH: `${BASE_PATH}/login`,
   LOGOUT_PATH: `${BASE_PATH}/logout`
 }
+
+export const ADMIN_PATH = {
+  USER: `${BASE_PATH}/cms/users`,
+  STORE: `${BASE_PATH}/cms/store`
+}

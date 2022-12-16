@@ -86,6 +86,7 @@ export default function LoginForm() {
           label="Số điện thoại"
           onChange={e => setUser({...user, phone: e.target.value})}
         />
+
         <FormControl fullWidth>
           <InputLabel id="gender">Giới tính</InputLabel>
             <Select

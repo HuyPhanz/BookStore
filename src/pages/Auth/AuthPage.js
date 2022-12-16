@@ -1,12 +1,13 @@
-import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Container } from '@mui/material';
 // hooks
 import {useParams} from "react-router-dom";
 // sections
+import axios from "axios";
 import {ForgotPasswordForm, LoginForm, RegisterForm} from '../../sections/auth/login';
 import {useAuth} from "../../hooks/useRoute";
+import {AUTH_PATH} from "../../const/API";
 
 // ----------------------------------------------------------------------
 
@@ -41,15 +42,17 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function AuthPage() {
   const {type} = useParams();
   const auth = useAuth();
+  const accessKey = 'x-access-token'
   if(type === 'logout') {
-    auth.logout();
+    axios.post(AUTH_PATH.LOGOUT_PATH,{},{
+      headers:{
+        [accessKey]: auth.user?.accessToken
+      }
+    })
+    auth.logout()
   }
   return (
     <>
-      <Helmet>
-        <title> Login | Minimal UI </title>
-      </Helmet>
-
       <StyledRoot style={{backgroundImage: "url('/assets/image2.png')", backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
 
         <Container maxWidth="sm" style={{height: '100vh'}}>

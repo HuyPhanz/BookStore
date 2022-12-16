@@ -7,21 +7,29 @@ import {
 // components
 import { DeleteTwoTone, EditTwoTone, PlusOutlined} from "@ant-design/icons";
 import {Button, Divider, Input, Modal, Table} from "antd";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import axios from "axios";
+import {ADMIN_PATH} from "../../const/API";
+import {useAuth} from "../../hooks/useRoute";
 
 // ----------------------------------------------------------------------
 
 const initData = [
-  { id: '1', name: 'Vinamilk Nguyễn Trãi', code: 'CH001', address: {
+  { id: '1', nameStore: 'Vinamilk Nguyễn Trãi', code: 'CH001', address: {
     addressDetail: 'Số 22 An Dương, P. Yên Phụ, Q. Tây Hồ, TP. Hà Nội'
     }}
 ];
 
 const initStore = {
-  name: null,
+  nameStore: null,
   code: null,
   address: {
+    lat: null,
+    lng: null,
+    provinceId: null,
+    districtId: null,
+    wardId: null,
     zone: null,
     province: null,
     district: null,
@@ -38,6 +46,27 @@ export default function StorePage() {
   const [data, setData] = useState(initData)
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
+  const [param,setParam] = useState({perPage: 10})
+  const [page, setPage] = useState(1)
+
+  const auth = useAuth();
+  const accessKey = 'x-access-token'
+  const headers = {
+    [accessKey]: auth.user?.accessToken
+  }
+
+  const handleLoadData = () => {
+    axios.get(ADMIN_PATH.STORE, {params: param, headers})
+      .then(response => {
+        setData(response.data.users)
+        setPage(response.data.page)
+      })
+      .catch(e => {
+        if (e.response) {
+          toast.error(e.response)
+        }
+      })
+  }
 
   const handleToggleModal = (type, data) => {
     if (modalOpening) {
@@ -70,7 +99,7 @@ export default function StorePage() {
 
   const column = [
     { dataIndex: 'id', title: 'ID' },
-    { dataIndex: 'name', title: 'Tên cửa hàng' },
+    { dataIndex: 'nameStore', title: 'Tên cửa hàng' },
     { dataIndex: 'code', title: 'Mã cửa hàng' },
     { dataIndex: ['address', 'addressDetail'], title: 'Địa chỉ' },
     { title: 'Hành động',
@@ -84,6 +113,10 @@ export default function StorePage() {
         </>
       )},
   ];
+
+  useEffect(() => {
+    handleLoadData()
+  },[])
 
   return (
     <>
@@ -114,7 +147,7 @@ export default function StorePage() {
             <Divider />
             <Stack direction="row" alignItems="center" justifyContent="space-between">
               <h4 style={{width: '40%'}}>Tên cửa hàng <span style={{color: 'red'}}>*</span></h4>
-              <Input value={store.name} onChange={e => {setStore({...store, name: e.target.value})}}/>
+              <Input value={store.nameStore} onChange={e => {setStore({...store, nameStore: e.target.value})}}/>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
               <h4 style={{width: '40%'}}>Mã cửa hàng  <span style={{color: 'red'}}>*</span></h4>

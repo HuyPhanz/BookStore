@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, {createContext, useContext} from "react";
 import {useNavigate } from "react-router-dom";
 import useLocalStorage from "./useLocalStorage";
 
@@ -17,10 +17,6 @@ export function AuthProvider({ children }) {
     setUser({});
     navigate("/");
   };
-
-  useEffect(() => {
-    setUser({userName: null, accessToken: null})
-  },[])
 
   return (
     <authContext.Provider value={{ user, login, logout }}>
