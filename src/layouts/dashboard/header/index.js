@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // @mui
 import { styled } from '@mui/material/styles';
-import {AppBar, Link, Toolbar, Typography} from '@mui/material';
+import {AppBar, IconButton, Link, Toolbar, Typography} from '@mui/material';
 // utils
 import {Button} from "antd";
 import {generatePath, useNavigate} from "react-router-dom";
@@ -13,6 +13,7 @@ import {bgBlur, Text} from '../../../utils/cssStyles';
 //
 import {useAuth} from "../../../hooks/useRoute";
 import {AUTH_PATH} from "../../../const/API";
+import Iconify from "../../../components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -86,16 +87,18 @@ export default function Header({ onOpenNav }) {
     <StyledRoot>
       <StyledNav>
         <img src={'/assets/logo.png'} alt={'logo'}/>
-        {/* <IconButton */}
-        {/*  onClick={onOpenNav} */}
-        {/*  sx={{ */}
-        {/*    mr: 1, */}
-        {/*    color: 'text.primary', */}
-        {/*    display: { lg: 'none' }, */}
-        {/*  }} */}
-        {/* > */}
-        {/*  <Iconify icon="eva:menu-2-fill" /> */}
-        {/* </IconButton> */}
+        {/* {user.userName === 'admin' && ( */}
+        {/*  <IconButton */}
+        {/*    onClick={onOpenNav} */}
+        {/*    sx={{ */}
+        {/*      mr: 1, */}
+        {/*      color: 'text.primary', */}
+        {/*      display: { lg: 'none' }, */}
+        {/*    }} */}
+        {/*  > */}
+        {/*    <Iconify icon="eva:menu-2-fill" /> */}
+        {/*  </IconButton> */}
+        {/* )} */}
         <div style={{display: 'flex', gap: '20px'}}>
           <Menu
             style={currentPage === 'home' ? {borderBottom: '1px solid', color: '#2065D1'} : null}
