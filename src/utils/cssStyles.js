@@ -38,12 +38,16 @@ export function bgBlur(props) {
 // ----------------------------------------------------------------------
 
 export const PageContainer = styled('div')`
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 15%;
+  margin-right: 15%;
   padding: 16px 16px 32px 16px;
   max-width: 1600px;
   height: calc(100% - 266px);
   overflow: hidden;
+  @media screen and (max-width: 1600px) {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
 `;
 
 export const Text = styled("p")`
