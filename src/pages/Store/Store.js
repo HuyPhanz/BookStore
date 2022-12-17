@@ -102,7 +102,7 @@ export default function Store () {
 
   useEffect(() => {
     handleLoadData()
-  },[])
+  },[userLocation])
 
   return (
     <PageContainer>
@@ -140,7 +140,7 @@ export default function Store () {
             trackUserLocation
             auto
             onGeolocate={(data) => {
-              setUserLocation({lng: data?.coords?.longitude ?? 0, lat: data?.coords?.latitude ?? 0})
+              setUserLocation({lng: data?.coords?.longitude, lat: data?.coords?.latitude})
               setViewport(initViewPort)
             }
           }
