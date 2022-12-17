@@ -222,7 +222,7 @@ export default function StorePage() {
     handleLoadData()
     handleLoadCountryData('cities')
   },[])
-
+  console.log(store)
   return (
     <>
       <Container>
@@ -338,7 +338,7 @@ export default function StorePage() {
                   goongApiAccessToken={GOONG_MAPTILES_KEY}
                   onClick={(e) => setStore({...store, lng: e?.lngLat[0] ?? 0, lat: e?.lngLat[1] ?? 0})}
                 >
-                  <CustomMarker longitude={store?.lng ?? 0} latitude={store?.lat ?? 0} />
+                  {store.lng !== null && store.lat !== null && (<CustomMarker longitude={parseFloat(store?.lng) ?? 0} latitude={parseFloat(store?.lat) ?? 0} />)}
                 </MapGL>
               </Stack>
             </div>
