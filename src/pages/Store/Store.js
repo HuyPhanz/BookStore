@@ -42,7 +42,7 @@ export default function Store () {
     const [x, y] = context.viewport.project([longitude, latitude]);
 
     const markerStyle = {
-      fontSize: '20px',
+      fontSize: info.nearest ? '30px' : '20px',
       position: 'absolute',
       left: x,
       top: y
@@ -111,11 +111,12 @@ export default function Store () {
       </h2>
       <div style={{display: 'flex', justifyContent:'space-around'}}>
         <div>
-          <Search style={{width:'50%'}} placeholder={'Tìm kiếm'} onSearch={handleSearch}/>
+          <Search style={{width:'40%'}} placeholder={'Tìm kiếm'} onSearch={handleSearch}/>
           <Table
             columns={columns}
             dataSource={data}
             pagination={false}
+            size={'small'}
             onRow={(record) => {
               return {
                 onDoubleClick: () => {
@@ -127,7 +128,7 @@ export default function Store () {
         </div>
         <MapGL
           {...viewport}
-          width="600px"
+          width="500px"
           height="1000px"
           onViewportChange={setViewport}
           goongApiAccessToken={GOONG_MAPTILES_KEY}
@@ -144,7 +145,7 @@ export default function Store () {
             }
           }
           />
-          {data.map((store, index) => <CustomMarker longitude={store?.lng ?? 0} latitude={store?.lat ?? 0} info={{name:store?.nameStore,code: store?.code, address: store?.address, nearest: index === 0}} />)}
+          {data.map((store, index) => <CustomMarker longitude={store?.lng ?? 0} latitude={store?.lat ?? 0} info={{name:store?.nameStore,code: store?.code, address: store?.address, nearest: index === data.length - 1}} />)}
         </MapGL>
       </div>
     </PageContainer>

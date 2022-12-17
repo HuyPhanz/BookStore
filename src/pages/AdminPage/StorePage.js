@@ -222,7 +222,7 @@ export default function StorePage() {
     handleLoadData()
     handleLoadCountryData('cities')
   },[])
-  console.log(store)
+
   return (
     <>
       <Container>
