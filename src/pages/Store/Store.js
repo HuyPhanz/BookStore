@@ -93,11 +93,11 @@ export default function Store () {
   const columns = [
     { dataIndex: 'id', title: 'STT', render: (val,record,index) => index + 1 },
     { dataIndex: 'nameStore', title: 'Tên cửa hàng', render: (val) => val ?? '-' },
-    { dataIndex: 'code', title: 'Mã cửa hàng', render: (val) => val ?? '-' },
+    { dataIndex: 'code', width: 75, title: 'Mã', render: (val) => val ?? '-' },
     { dataIndex: ['city','name'], title: 'Tỉnh/Thành phố', render: (val) => val ?? '-' },
     { dataIndex: ['district','name'], title: 'Quận/Huyện', render: (val) => val ?? '-' },
     { dataIndex: ['ward', 'name'], title: 'Xã/Phường', render: (val) => val ?? '-' },
-    { dataIndex: 'address', title: 'Địa chỉ', render: (val) => val ?? '-' },
+    { dataIndex: 'address', width: 150, title: 'Địa chỉ', render: (val) => val ?? '-' },
   ];
 
   useEffect(() => {
@@ -113,6 +113,7 @@ export default function Store () {
         <div>
           <Search style={{width:'50%'}} placeholder={'Tìm kiếm'} onSearch={handleSearch}/>
           <Table
+            style={{width: '750px'}}
             columns={columns}
             dataSource={data}
             pagination={false}
