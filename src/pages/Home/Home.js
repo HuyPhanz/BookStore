@@ -1,4 +1,4 @@
-import {Button, Image} from "antd";
+import {Image} from "antd";
 import {CheckOutlined} from "@ant-design/icons";
 import {PageContainer, Text} from "../../utils/cssStyles";
 import Card from "./Card";
@@ -48,9 +48,9 @@ export default function Home () {
       <h1 style={{textAlign:'center'}}>Ba trụ cột phát triển bền vững của Vinamilk</h1>
 
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
-        <Card icon={<Image src={'/assets/icons/icon1.png'} width={'94px'}/>} title={'Thiên nhiên'} des={'Vinamilk xem thiên nhiên là bạn đồng hành cùng Phát triển bền vững và hướng đến giảm thiểu dấu chân carbon trên lộ trình tăng trưởng xanh; ứng dụng kỹ thuật hiện đại thân thiện môi trường'}/>
-        <Card icon={<Image src={'/assets/icons/icon2.png'} width={'94px'}/>} title={'Thiên Con người'} des={'Vinamilk luôn nỗ lực vượt qua mọi thách thức, bứt phá giới hạn, kiến tạo thành công và sẻ chia giá trị cùng phát triển với các bên liên quan nhằm hướng đến “Vươn cao Việt Nam, vươn tầm thế giới”.'}/>
-        <Card icon={<Image src={'/assets/icons/icon3.png'} width={'94px'}/>} title={'Sản phẩm'} des={'Vinamilk cam kết mang lại những sản phẩm an toàn, giá trị, lợi ích tốt nhất về cho sức khỏe con người và hướng đến tạo ra nhiều sản phẩm, dịch vụ thân thiện với môi trường.'}/>
+        <Card icon={<Image preview={false} src={'/assets/icons/icon1.png'} width={'94px'}/>} title={'Thiên nhiên'} des={'Vinamilk xem thiên nhiên là bạn đồng hành cùng Phát triển bền vững và hướng đến giảm thiểu dấu chân carbon trên lộ trình tăng trưởng xanh; ứng dụng kỹ thuật hiện đại thân thiện môi trường'}/>
+        <Card icon={<Image preview={false} src={'/assets/icons/icon2.png'} width={'94px'}/>} title={'Thiên Con người'} des={'Vinamilk luôn nỗ lực vượt qua mọi thách thức, bứt phá giới hạn, kiến tạo thành công và sẻ chia giá trị cùng phát triển với các bên liên quan nhằm hướng đến “Vươn cao Việt Nam, vươn tầm thế giới”.'}/>
+        <Card icon={<Image preview={false} src={'/assets/icons/icon3.png'} width={'94px'}/>} title={'Sản phẩm'} des={'Vinamilk cam kết mang lại những sản phẩm an toàn, giá trị, lợi ích tốt nhất về cho sức khỏe con người và hướng đến tạo ra nhiều sản phẩm, dịch vụ thân thiện với môi trường.'}/>
       </div>
 
       <div>
@@ -63,7 +63,7 @@ export default function Home () {
       </div>
 
       <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '100px'}}>
-        <Image src={'/assets/image5.png'}/>
+        <Image preview={false} src={'/assets/image5.png'}/>
         <div style={{width: '50%'}}>
           <div>
             <h2 style={{textAlign: 'center'}}>Triết lý kinh doanh</h2>
@@ -113,7 +113,7 @@ export default function Home () {
             </Text>
           </div>
         </div>
-        <Image src={'/assets/image8.png'}/>
+        <Image preview={false} src={'/assets/image8.png'}/>
       </div>
 
       <div style={{marginTop: '32px', marginBottom: '64px'}}>
@@ -139,9 +139,9 @@ export default function Home () {
             </Text>
           </div>
           <div>
-            <Image src={'/assets/image6.png'}/>
+            <Image preview={false} src={'/assets/image6.png'}/>
             <br/>
-            <Image src={'/assets/image7.png'}/>
+            <Image preview={false} src={'/assets/image7.png'}/>
           </div>
         </div>
       </div>

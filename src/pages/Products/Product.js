@@ -50,7 +50,7 @@ export default function Product () {
 
   return (
     <PageContainer>
-      <Image src={'/assets/image9.png'}/>
+      <Image preview={false} src={'/assets/image9.png'}/>
       <Text style={{textAlign: 'center'}}>
         Vinamilk luôn mang đến cho bạn những giải pháp dinh dưỡng chất lượng quốc tế, đáp ứng nhu cầu cho mọi đối tượng
         tiêu dùng với các sản phẩm thơm ngon, bổ dưỡng, tốt cho sức khỏe gắn liền với các nhãn hiệu dẫn đầu thị trường hay

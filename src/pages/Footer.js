@@ -5,7 +5,7 @@ export default function Footer () {
   return (
     <div style={{background: '#183186', display: 'flex', justifyContent: 'space-around', color: 'white', padding: '16px', height: '266px'}}>
       <div style={{width: '20%'}}>
-        <Image src={'/assets/logo.png'} style={{textAlign: 'center'}}/>
+        <Image preview={false} src={'/assets/logo.png'} style={{textAlign: 'center'}}/>
         <Text>
           Vinamilk tự hào là Thương hiệu Quốc gia,
           thuộc “Top 10 thương hiệu sữa giá trị nhất toàn cầu”

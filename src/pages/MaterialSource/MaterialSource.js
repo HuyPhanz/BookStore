@@ -4,7 +4,7 @@ import {PageContainer, Text} from "../../utils/cssStyles";
 export default function MaterialSource () {
   return (
     <PageContainer>
-      <Image src={'/assets/bg1.png'}/>
+      <Image preview={false} src={'/assets/bg1.png'}/>
       <h1 style={{textAlign: 'center'}}>
         KHỐI PHÁT TRIỂN VÙNG NGUYÊN LIỆU
       </h1>
@@ -25,7 +25,7 @@ export default function MaterialSource () {
           </Text>
         </div>
         <div>
-          <Image src={'/assets/image11.png'}/>
+          <Image preview={false} src={'/assets/image11.png'}/>
           <h3 style={{textAlign: 'center'}}>
             Ông Trịnh Quốc Dũng <br/>
             Giám đốc Điều hành Phát triển Vùng nguyên liệu
@@ -47,7 +47,7 @@ export default function MaterialSource () {
             4. Buôn bán nông, lâm sản nguyên liệu và động vật sống.<br/>
           </Text>
         </div>
-        <Image src={'/assets/image12.png'}/>
+        <Image preview={false} src={'/assets/image12.png'}/>
       </div>
 
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -68,7 +68,7 @@ export default function MaterialSource () {
             8. Sản xuất vật liệu xây dựng và xây dựng công trình.<br/>
           </Text>
         </div>
-        <Image src={'/assets/image13.png'}/>
+        <Image preview={false} src={'/assets/image13.png'}/>
       </div>
 
       <h2>TRANG TRẠI BÒ SỮA ORGANIC CHUẨN CHÂU ÂU ĐẦU TIÊN TẠI VIỆT NAM</h2>
