@@ -111,7 +111,7 @@ export default function Store () {
       </h2>
       <div style={{display: 'flex', justifyContent:'space-around'}}>
         <div>
-          <Search style={{width:'40%'}} placeholder={'Tìm kiếm'} onSearch={handleSearch}/>
+          <Search style={{width:'50%'}} placeholder={'Tìm kiếm'} onSearch={handleSearch}/>
           <Table
             columns={columns}
             dataSource={data}
@@ -145,7 +145,7 @@ export default function Store () {
             }
           }
           />
-          {data.map((store, index) => <CustomMarker longitude={store?.lng ?? 0} latitude={store?.lat ?? 0} info={{name:store?.nameStore,code: store?.code, address: store?.address, nearest: index === data.length - 1}} />)}
+          {data.map((store, index) => <CustomMarker longitude={store?.lng ?? 0} latitude={store?.lat ?? 0} info={{name:store?.nameStore,code: store?.code, address: store?.address, nearest: index === 0}} />)}
         </MapGL>
       </div>
     </PageContainer>
