@@ -69,7 +69,7 @@ export default function Store () {
   }
 
   const handleLoadData = () => {
-    axios.get(`${USER_PATH.STORE}/distance`, {params: {...userLocation}, headers})
+    axios.get(`${USER_PATH.STORE}/distance`, {params: {...userLocation, perPage: 1000}, headers})
       .then(response => {
         setData(response.data.stores)
       })
