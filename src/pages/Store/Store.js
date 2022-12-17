@@ -91,7 +91,7 @@ export default function Store () {
   }
 
   const columns = [
-    { dataIndex: 'id', title: 'ID', render: (val,record,index) => index + 1 },
+    { dataIndex: 'id', title: 'STT', render: (val,record,index) => index + 1 },
     { dataIndex: 'nameStore', title: 'Tên cửa hàng', render: (val) => val ?? '-' },
     { dataIndex: 'code', title: 'Mã cửa hàng', render: (val) => val ?? '-' },
     { dataIndex: ['city','name'], title: 'Tỉnh/Thành phố', render: (val) => val ?? '-' },
