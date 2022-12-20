@@ -10,7 +10,6 @@ import {Button, Divider, Image, Input, Modal, Table} from "antd";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
-import {parseInt} from "lodash/string";
 import {ADMIN_PATH} from "../../const/API";
 import {useAuth} from "../../hooks/useRoute";
 
@@ -38,7 +37,6 @@ export default function ProductPage() {
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
   const [param,setParam] = useState({perPage: 10})
-  const [page, setPage] = useState(1)
 
   const auth = useAuth();
   const accessKey = 'x-access-token'
@@ -62,7 +60,6 @@ export default function ProductPage() {
     axios.get(ADMIN_PATH.PRODUCT, {params: param, headers})
       .then(response => {
         setData(response.data.products)
-        setPage(response.data.page)
       })
       .catch(e => {
         if (e.response) {

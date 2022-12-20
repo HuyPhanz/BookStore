@@ -34,7 +34,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <Stack spacing={5}>
+      <Stack spacing={2}>
         <div style={{display: 'flex', justifyContent: "center"}}>
           <img style={{width:'200px', height: '100px'}} src={'/assets/logo.png'} alt={'logo'}/>
         </div>
@@ -45,13 +45,13 @@ export default function LoginForm() {
 
         <TextField
           name="email"
-          label="Email address"
+          label="Tên đăng nhập"
           onChange={e => setUser({...user, username: e.target.value})}
         />
 
         <TextField
           name="password"
-          label="Password"
+          label="Mật khẩu"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (

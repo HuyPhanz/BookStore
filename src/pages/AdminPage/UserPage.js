@@ -6,19 +6,16 @@ import {
 } from '@mui/material';
 // components
 import { DeleteTwoTone, EditTwoTone, PlusOutlined} from "@ant-design/icons";
-import {Breadcrumb, Button, Divider, Input, Modal, Table} from "antd";
+import { Button, Divider, Input, Modal, Table} from "antd";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
 import {useAuth} from "../../hooks/useRoute";
-import {ADMIN_PATH, AUTH_PATH} from "../../const/API";
+import {ADMIN_PATH} from "../../const/API";
 
 // ----------------------------------------------------------------------
 
-const initData = [
-  { id: '1', username: 'huyphan', name: 'Phan Quang Huy', phone: '0899832239', email: 'huy@gmail.com',},
-  { id: '2', username: 'haiyen', name: 'Hán Hải Yến', phone: '0982314221', email: 'yen@gmail.com',},
-];
+const initData = [];
 
 const initUser = {
   username: null,
@@ -34,11 +31,9 @@ const initUser = {
 export default function UserPage() {
   const {Search} = Input;
   const [user, setUser] = useState(initUser)
-  const [data, setData] = useState([])
-  const [selectedRow, setSelectedRow] = useState(-1)
+  const [data, setData] = useState(initData)
   const [modalOpening, setModalOpening] = useState(null);
   const [param,setParam] = useState({perPage: 1000})
-  const [page, setPage] = useState(1)
 
   const auth = useAuth();
   const accessKey = 'x-access-token'
@@ -50,7 +45,6 @@ export default function UserPage() {
     axios.get(ADMIN_PATH.USER, {params: param, headers})
       .then(response => {
         setData(response.data.users)
-        setPage(response.data.page)
       })
       .catch(e => {
         if (e.response) {
@@ -86,7 +80,7 @@ export default function UserPage() {
             toast.error(e.response.data?.msg)
           }
         })
-    } else if (selectedRow !== -1){
+    } else if (user?.id){
       axios.put(`${ADMIN_PATH.USER}/${user?.id}`,user,{headers})
         .then(response => {
           if (response) {
@@ -96,10 +90,10 @@ export default function UserPage() {
           }
         })
         .catch(e => {
-            if (e.response) {
-              toast.error(e.response.data?.msg)
-            }
-          })
+          if (e.response) {
+            toast.error(e.response.data?.msg)
+          }
+        })
     } else {
       toast.error('Có lỗi xảy ra!')
     }
@@ -146,12 +140,12 @@ export default function UserPage() {
     { dataIndex: 'email', title: 'Email' },
     { title: 'Hành động',
       align: 'center',
-      render: (_, record, index) => (
+      render: (_, record) => (
         <>
           <EditTwoTone twoToneColor={'blue'} onClick={() => {
-            setSelectedRow(index)
             handleToggleModal('edit', record)
-          }}/> <DeleteTwoTone twoToneColor={'red'} onClick={() => handleDelete(record.id)}/>
+          }}/>
+          <DeleteTwoTone twoToneColor={'red'} onClick={() => handleDelete(record.id)}/>
         </>
       )},
   ];

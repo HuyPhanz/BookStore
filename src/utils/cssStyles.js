@@ -51,4 +51,5 @@ export const PageContainer = styled('div')`
 
 export const Text = styled("p")`
   font-size: 18px;
+  font-family: Out;
 `;

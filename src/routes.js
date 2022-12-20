@@ -1,7 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
-import SimpleLayout from './layouts/simple';
 //
 import UserPage from './pages/AdminPage/UserPage';
 import AuthPage from './pages/Auth/AuthPage';
@@ -14,6 +13,7 @@ import Feature from "./pages/Feature/Feature";
 import StorePage from "./pages/AdminPage/StorePage";
 import ProductTypePage from "./pages/AdminPage/ProductTypePage";
 import ProductPage from "./pages/AdminPage/ProductPage";
+import RequireAuth from "./sections/auth/RequireAuth";
 
 
 // ----------------------------------------------------------------------
@@ -53,7 +53,7 @@ export default function Router() {
     },
     {
       path: '/admin',
-      element: <DashboardLayout />,
+      element: <RequireAuth><DashboardLayout /></RequireAuth>,
       children: [
         { element: <Navigate to="/admin/user" />, index: true },
         {
@@ -75,15 +75,11 @@ export default function Router() {
       ],
     },
     {
-      element: <SimpleLayout />,
+      path: '*',
       children: [
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
-    },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
     },
   ]);
 

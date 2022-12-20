@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import {AppBar, IconButton, Link, Toolbar, Typography} from '@mui/material';
 // utils
-import {Button} from "antd";
+import {Button, Dropdown, Space} from "antd";
 import {generatePath, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {useState} from "react";
+import {DownOutlined} from "@ant-design/icons";
 import {bgBlur, Text} from '../../../utils/cssStyles';
 // components
 //
@@ -69,6 +70,19 @@ export default function Header({ onOpenNav }) {
     [accessKey]: auth.user?.accessToken
   }
 
+  const onClick = ({ key }) => key === 'logout' ? handleLogout() : navigate('/auth/change-password')
+
+  const items = [
+    {
+      label: 'Đổi mật khẩu',
+      key: 'change-password',
+    },
+    {
+      label: 'Đăng xuất',
+      key: 'logout',
+    },
+  ];
+
   const handleLogout = () => {
     auth.logout();
     axios.post(AUTH_PATH.LOGOUT_PATH,{},{headers})
@@ -87,18 +101,6 @@ export default function Header({ onOpenNav }) {
     <StyledRoot>
       <StyledNav>
         <img src={'/assets/logo.png'} alt={'logo'}/>
-        {/* {user.userName === 'admin' && ( */}
-        {/*  <IconButton */}
-        {/*    onClick={onOpenNav} */}
-        {/*    sx={{ */}
-        {/*      mr: 1, */}
-        {/*      color: 'text.primary', */}
-        {/*      display: { lg: 'none' }, */}
-        {/*    }} */}
-        {/*  > */}
-        {/*    <Iconify icon="eva:menu-2-fill" /> */}
-        {/*  </IconButton> */}
-        {/* )} */}
         <div style={{display: 'flex', gap: '20px'}}>
           <Menu
             style={currentPage === 'home' ? {borderBottom: '1px solid', color: '#2065D1'} : null}
@@ -152,10 +154,18 @@ export default function Header({ onOpenNav }) {
           </Menu>
         </div>
         {user?.userName ? (
-          <div style={{display: 'flex', gap:'16px', alignItems: 'center'}}>
-            <Text style={{color: 'black'}}>{user?.userName}</Text>
-            <Button onClick={() => handleLogout()}>Đăng xuất</Button>
-          </div>
+          <Dropdown
+            menu={{
+              items,
+              onClick,
+            }}
+            overlayStyle={{zIndex: '10000'}}
+          >
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+            <Text style={{fontSize: '16pt', color:'blue', cursor: 'pointer'}}>
+              {user.userName}
+            </Text>
+          </Dropdown>
           ) : (
             <Button style={{background: '#2A3B88', color: 'white'}} shape={"round"} onClick={() => navigate(generatePath('/auth/:type', {type: 'login'}))}>Đăng nhập</Button>
           )}

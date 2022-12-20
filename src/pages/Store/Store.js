@@ -1,28 +1,21 @@
-import React, {Component, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import MapGL, {GeolocateControl, MapContext} from '@goongmaps/goong-map-react';
 import {Input, Table} from "antd";
-import {DeleteTwoTone, EditTwoTone, EnvironmentTwoTone} from "@ant-design/icons";
-import {red} from "@mui/material/colors";
+import { EnvironmentTwoTone} from "@ant-design/icons";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {Tooltip} from "@mui/material";
 import {PageContainer} from "../../utils/cssStyles";
-import {ADMIN_PATH, USER_PATH} from "../../const/API";
+import {USER_PATH} from "../../const/API";
 import {useAuth} from "../../hooks/useRoute";
 
 const GOONG_MAPTILES_KEY = 'ZuqMdvolU0bH4wIUduvcei9vJYfzPK3zPG7rI6d6';
 const {Search} = Input
-const initData = [
-  { id: '1', nameStore: 'Vinamilk Nguyễn Trãi', code: 'CH001', address: {
-      addressDetail: 'Số 22 An Dương, P. Yên Phụ, Q. Tây Hồ, TP. Hà Nội'
-    }}
-];
+const initData = [];
 const initViewPort = {
   latitude: 16,
   longitude: 106,
   zoom: 5.5,
-  bearing: 0,
-  pitch: 0
 }
 
 export default function Store () {
@@ -56,7 +49,7 @@ export default function Store () {
           Địa chỉ: {info.address ?? '-'}
         </>
       }>
-        <EnvironmentTwoTone twoToneColor={info.nearest ? 'blue' :'red'} c style={markerStyle} />
+        <EnvironmentTwoTone twoToneColor={info.nearest ? 'blue' :'red'} style={markerStyle} />
       </Tooltip>
     );
   }

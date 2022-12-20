@@ -5,21 +5,18 @@ import Router from './routes';
 import ThemeProvider from './theme';
 import 'react-toastify/dist/ReactToastify.css';
 // components
-import ScrollToTop from './components/scroll-to-top';
-import { StyledChart } from './components/chart';
 import {AuthProvider} from "./hooks/useRoute";
+
 
 // ----------------------------------------------------------------------
 
 export default function App() {
   return (
     <AuthProvider>
-    <ThemeProvider>
-      <ScrollToTop />
-      <StyledChart />
+      <ThemeProvider>
         <Router />
-      <ToastContainer />
-    </ThemeProvider>
+        <ToastContainer />
+      </ThemeProvider>
     </AuthProvider>
   );
 }

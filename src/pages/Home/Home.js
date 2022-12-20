@@ -12,7 +12,7 @@ export default function Home () {
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <div>
           <h1>
-            Công ty cổ phần sửa Việt Nam
+            Công ty cổ phần sữa Việt Nam
           </h1>
           <div>
             <span style={{fontWeight: 'bold'}}>Mã cổ phiếu: </span> VNM
@@ -42,7 +42,7 @@ export default function Home () {
             <span style={{fontWeight: 'bold'}}>Website: </span> www.vinamilk.com.vn
           </div>
         </div>
-        <Image src={'/assets/vina1.png'}/>
+        <Image preview={false} src={'/assets/vina1.png'}/>
       </div>
 
       <h1 style={{textAlign:'center'}}>Ba trụ cột phát triển bền vững của Vinamilk</h1>

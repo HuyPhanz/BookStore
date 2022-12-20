@@ -5,15 +5,13 @@ import {toast} from "react-toastify";
 import {Stack} from "@mui/material";
 import {PageContainer, Text} from "../../utils/cssStyles";
 import {useAuth} from "../../hooks/useRoute";
-import {ADMIN_PATH, USER_PATH} from "../../const/API";
+import {USER_PATH} from "../../const/API";
 
 const { Search } = Input
-const {Meta} = Card
+const { Meta } = Card
 
 export default function Product () {
   const [data, setData] = useState([])
-  const [productType, setProductType] = useState([])
-  const [page, setPage] = useState(1)
 
   const auth = useAuth();
   const accessKey = 'x-access-token'
@@ -25,7 +23,6 @@ export default function Product () {
     axios.get(USER_PATH.PRODUCT, {params: {perPage: 1000}, headers})
       .then(response => {
         setData(response.data.products)
-        setPage(response.data.page)
       })
       .catch(e => {
         if (e.response) {
@@ -60,22 +57,22 @@ export default function Product () {
       <Search placeholder={'Tìm kiếm'} onSearch={handleSearch} style={{width: '286px'}}/>
       <div style={{display: 'flex', gap: '72px', flexWrap: 'wrap'}}>
         {data.map(({nameProduct, productCode, productType, image}) => (
-            <Card
-              hoverable
-              style={{ width: '20%', marginTop: '72px' }}
-              cover={<img alt="product" src={image ?? '/assets/images/products/milk1.png'} />}
-            >
-              <Meta style={{marginBottom:"4px"}} title={nameProduct ?? 'N/A'}/>
-              <Meta style={{marginBottom:"4px"}} title={
-                <Stack>
-                  <> Loại: </>
-                  <>{productType?.typeString ?? 'N/A'}</>
-                </Stack>
-                }
-              />
-              <Meta style={{marginBottom:"4px"}} description={`#${productCode ?? 'N/A'}`}/>
-            </Card>
-          ))}
+          <Card
+            hoverable
+            style={{ width: '20%', marginTop: '72px' }}
+            cover={<img alt="product" src={image ?? '/assets/images/products/milk1.png'} />}
+          >
+            <Meta style={{marginBottom:"4px"}} title={nameProduct ?? 'N/A'}/>
+            <Meta style={{marginBottom:"4px"}} title={
+              <Stack>
+                <> Loại: </>
+                <>{productType?.typeString ?? 'N/A'}</>
+              </Stack>
+              }
+            />
+            <Meta style={{marginBottom:"4px"}} description={`#${productCode ?? 'N/A'}`}/>
+          </Card>
+        ))}
       </div>
       <div style={{marginTop: '72px'}}/>
     </PageContainer>

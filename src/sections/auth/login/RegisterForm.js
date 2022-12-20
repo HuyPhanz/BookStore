@@ -44,7 +44,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <Stack spacing={5}>
+      <Stack spacing={2}>
         <div style={{display: 'flex', justifyContent: "center"}}>
           <img style={{width:'200px', height: '100px'}} src={'/assets/logo.png'} alt={'logo'}/>
         </div>

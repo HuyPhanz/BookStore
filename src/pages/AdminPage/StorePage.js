@@ -2,7 +2,7 @@
 import {
   Stack,
   Container,
-  Typography, TextField, FormControl, InputLabel, Select, MenuItem, Autocomplete, Tooltip,
+  Typography, TextField, Autocomplete,
 } from '@mui/material';
 // components
 import {DeleteTwoTone, EditTwoTone, EnvironmentTwoTone, PlusOutlined} from "@ant-design/icons";
@@ -10,17 +10,27 @@ import {Button, Divider, Input, Modal, Table} from "antd";
 import React, {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
-import MapGL, {GeolocateControl, MapContext} from "@goongmaps/goong-map-react";
+import MapGL, {MapContext} from "@goongmaps/goong-map-react";
+import {styled} from "@mui/material/styles";
 import {ADMIN_PATH} from "../../const/API";
 import {useAuth} from "../../hooks/useRoute";
 
 // ----------------------------------------------------------------------
 
-const initData = [
-  { id: '1', nameStore: 'Vinamilk Nguyễn Trãi', code: 'CH001', address: {
-    addressDetail: 'Số 22 An Dương, P. Yên Phụ, Q. Tây Hồ, TP. Hà Nội'
-    }}
-];
+const CStack = styled(Stack)`
+  @media screen and (max-width: 1600px) {
+    display: none;
+  }
+`;
+
+const IStack = styled(Stack)`
+  width: 40%;
+  @media screen and (max-width: 1600px) {
+    width: 100%;
+  }
+`;
+
+const initData = [];
 
 const initStore = {
   nameStore: null,
@@ -51,7 +61,6 @@ export default function StorePage() {
   const [selectedRow, setSelectedRow] = useState(-1)
   const [modalOpening, setModalOpening] = useState(null);
   const [param,setParam] = useState({perPage: 1000})
-  const [page, setPage] = useState(1)
   const [countryData, setCountryData] = useState({cities:[],districts:[],wards:[]})
 
   const [viewport, setViewport] = useState(initViewPort)
@@ -84,7 +93,6 @@ export default function StorePage() {
     axios.get(ADMIN_PATH.STORE, {params: param, headers})
       .then(response => {
         setData(response.data.stores)
-        setPage(response.data.page)
       })
       .catch(e => {
         if (e.response) {
@@ -245,18 +253,18 @@ export default function StorePage() {
         </div>
 
         <Modal
-          title={modalOpening === 'new' ? 'Tạo cừa hàng' : 'Sửa thông cửa hàng'}
+          title={modalOpening === 'new' ? 'Tạo cửa hàng' : 'Sửa thông cửa hàng'}
           open={modalOpening}
           onCancel={handleToggleModal}
           onOk={() => handleSubmitData(modalOpening)}
           okText={'Xác nhận'}
           cancelText={'Hủy'}
-          width={1200}
+          width={'50vw'}
         >
           <>
             <Divider />
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
-              <Stack spacing={5} style={{width:'40%'}}>
+              <IStack spacing={2} >
                 <TextField
                   value={store.nameStore ?? ''}
                   name='name'
@@ -328,19 +336,19 @@ export default function StorePage() {
                   label={'Kinh độ'}
                   onChange={e => {setStore({...store, lng: e.target.value})}}
                 />
-              </Stack>
-              <Stack>
+              </IStack>
+              <CStack>
                 <MapGL
                   {...viewport}
-                  width="600px"
-                  height="700px"
+                  width={'24vw'}
+                  height={'600px'}
                   onViewportChange={setViewport}
                   goongApiAccessToken={GOONG_MAPTILES_KEY}
                   onClick={(e) => setStore({...store, lng: e?.lngLat[0] ?? 0, lat: e?.lngLat[1] ?? 0})}
                 >
                   {store.lng !== null && store.lat !== null && (<CustomMarker longitude={parseFloat(store?.lng) ?? 0} latitude={parseFloat(store?.lat) ?? 0} />)}
                 </MapGL>
-              </Stack>
+              </CStack>
             </div>
           </>
         </Modal>
