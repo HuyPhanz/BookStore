@@ -18,7 +18,7 @@ export default function ChangePasswordForm() {
   const headers = {
     [accessKey]: auth.user?.accessToken
   }
-  console.log(headers)
+
   const navigate = useNavigate()
   const [user, setUser] = useState({oldPassword: null, newPassword: null, confirmPassword: null})
   const [showPassword, setShowPassword] = useState(false);
