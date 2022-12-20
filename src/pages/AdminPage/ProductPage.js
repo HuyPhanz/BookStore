@@ -24,7 +24,7 @@ const initProduct = {
   productCode: null,
   productTypeId: null,
   number: null,
-  url: null,
+  // url: null,
 }
 
 // ----------------------------------------------------------------------
@@ -192,7 +192,7 @@ export default function ProductPage() {
           <>
             <Divider />
             <Stack spacing={5}>
-              {product.url && (<Image width={200} src={`/assets/images/products/${product.url}`} />)}
+              {/* {product.url && (<Image width={200} src={`/assets/images/products/${product.url}`} />)} */}
               <TextField
                 value={product.nameProduct ?? ''}
                 name='nameProduct'
@@ -225,12 +225,12 @@ export default function ProductPage() {
                 onChange={e => {setProduct({...product, number: e.target.value})}}
               />
 
-              <TextField
-                value={product.url ?? ''}
-                name='url'
-                label={'Tên ảnh'}
-                onChange={e => {setProduct({...product, url: e.target.value})}}
-              />
+              {/* <TextField */}
+              {/*  value={product.url ?? ''} */}
+              {/*  name='url' */}
+              {/*  label={'Tên ảnh'} */}
+              {/*  onChange={e => {setProduct({...product, url: e.target.value})}} */}
+              {/* /> */}
             </Stack>
           </>
         </Modal>
